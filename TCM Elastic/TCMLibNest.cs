@@ -51,6 +51,36 @@ namespace TCM_Elastic
             
         }
 
+        public IReadOnlyCollection<IHit<Document>> BuscarTermoBaseConhecimentoHighlights(string termo, string indexName)
+        {
+            var searchResponse = ElasticClient.Search<Document>(s => s
+              .Index(indexName)
+              .Query(q => q
+                .Match(m => m
+                  .Field(a => a.Attachment.Content)
+                  .Query(termo)
+                )
+              )
+              .Highlight(h => h
+                .Encoder(HighlighterEncoder.Html)
+                .Fields(
+                    fs => fs
+                        .Field(p => p.Attachment.Content)
+                        .Type("plain")
+                        .ForceSource()
+                        .FragmentSize(150)
+                        .Fragmenter(HighlighterFragmenter.Span)
+                        .NumberOfFragments(6)
+                        .NoMatchSize(150)
+                )
+            )
+            );
+
+            var resultadoBusca = searchResponse.Hits;
+            return resultadoBusca;
+            
+        }
+
         public IReadOnlyCollection<Document> BuscarTermoBaseConhecimento(string termo, string indexName)
         {
             var searchResponse = ElasticClient.Search<Document>(s => s

@@ -59,27 +59,44 @@ namespace TCM_Elastic
             //5.1 - Realiza uma busca dentro de Documentos DOCX com NEST
             Console.WriteLine("O que deseja buscar na base de conhecimento? ");
             string termo = Console.ReadLine();
-            var resultado = nest.BuscarTermoBaseConhecimento(termo, indexName);
 
-            if (resultado.Count == 0)
-            {
-                Console.WriteLine("Nada encontrado!");
-            }
-            else
-            {
-                Console.WriteLine("Encontrado em: " + resultado.Count + "documentos! (MAX 10)");
-            }
+            //5.1.1 - Busca todo Doc
+            //var resultado = nest.BuscarTermoBaseConhecimento(termo, indexName);
 
-            foreach (Document n in resultado)
+            //if (resultado.Count == 0)
+            //{
+            //    Console.WriteLine("Nada encontrado!");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Encontrado em: " + resultado.Count + "documentos! (MAX 10)");
+            //}
+
+            //foreach (Document n in resultado)
+            //{
+            //    Console.WriteLine("===================================================================");
+            //    Console.WriteLine("Termo encontrado no Documento: " + n.Path);
+            //    Console.WriteLine("========================== INICIO ================================");
+            //    Console.WriteLine("Conteudo");
+            //    Console.WriteLine(n.Attachment.Content);
+            //    Console.WriteLine("=========================== FIM ==================================");
+            //    Console.WriteLine("");
+            //    Console.WriteLine("");
+            //}
+
+            //5.2.2 - Busca por highlights
+            var resultado = nest.BuscarTermoBaseConhecimentoHighlights(termo, indexName);
+            foreach (var hit in resultado)
             {
-                Console.WriteLine("===================================================================");
-                Console.WriteLine("Termo encontrado no Documento: " + n.Path);
-                Console.WriteLine("========================== INICIO ================================");
-                Console.WriteLine("Conteudo");
-                Console.WriteLine(n.Attachment.Content);
-                Console.WriteLine("=========================== FIM ==================================");
-                Console.WriteLine("");
-                Console.WriteLine("");
+                
+                foreach (var highlightField in hit.Highlight)
+                {
+                    foreach (var highlight in highlightField.Value)
+                    {
+                        Console.WriteLine(highlight);
+                    }
+                    
+                }
             }
 
 
