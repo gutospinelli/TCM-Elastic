@@ -51,10 +51,10 @@ namespace TCM_Elastic
             
         }
 
-        public IReadOnlyCollection<Document> BuscarTermoBaseConhecimento(string termo)
+        public IReadOnlyCollection<Document> BuscarTermoBaseConhecimento(string termo, string indexName)
         {
             var searchResponse = ElasticClient.Search<Document>(s => s
-              .Index("conhecimento")
+              .Index(indexName)
               .Query(q => q
                 .Match(m => m
                   .Field(a => a.Attachment.Content)
@@ -68,9 +68,9 @@ namespace TCM_Elastic
             
         }
 
-        public void IngestPipeline()
+        public void IngestPipeline(string indexName)
         {
-            ElasticClient.Indices.Create("conhecimento", c => c
+            ElasticClient.Indices.Create(indexName, c => c
                 .Map<Document>(p => p
                     .AutoMap() 
                     .Properties(ps => ps
@@ -98,8 +98,9 @@ namespace TCM_Elastic
         }
 
         //Exemplo de Ingestão de Documentos (indexação de PDFs, DOCs, etc na base do elastic
-        public void IngestKnowledgeBaseDocs(string path, string searchPattern)
+        public void IngestKnowledgeBaseDocs(string path, string searchPattern, string indexName)
         {
+            
             DirectoryInfo d = new DirectoryInfo(path);
 
             foreach (var file in d.GetFiles(searchPattern))
@@ -111,7 +112,7 @@ namespace TCM_Elastic
                     Content = Convert.ToBase64String(File.ReadAllBytes(file.FullName))
                 };
 
-                var indexResponse = ElasticClient.Index(docBaseConhecimento, doc => doc.Index("conhecimento").Pipeline("attachments"));
+                var indexResponse = ElasticClient.Index(docBaseConhecimento, doc => doc.Index(indexName).Pipeline("attachments"));
             }
         }
 

@@ -49,19 +49,24 @@ namespace TCM_Elastic
             //robo.SalvaNoticiasJson();
 
             //5 -Cria Índice de Documentos Word
-            //nest.IngestPipeline();
+            var indexName = "conhecimento_v2";
+            //nest.IngestPipeline(indexName);
+
             //var path = @"C:\tmp\es";
             //var searchPattern = @"*.docx";
-            //nest.IngestKnowledgeBaseDocs(path, searchPattern);
+            //nest.IngestKnowledgeBaseDocs(path, searchPattern, indexName);
 
             //5.1 - Realiza uma busca dentro de Documentos DOCX com NEST
             Console.WriteLine("O que deseja buscar na base de conhecimento? ");
             string termo = Console.ReadLine();
-            var resultado = nest.BuscarTermoBaseConhecimento(termo);
+            var resultado = nest.BuscarTermoBaseConhecimento(termo, indexName);
 
-            if (resultado.Count == 0) {
+            if (resultado.Count == 0)
+            {
                 Console.WriteLine("Nada encontrado!");
-            } else {
+            }
+            else
+            {
                 Console.WriteLine("Encontrado em: " + resultado.Count + "documentos! (MAX 10)");
             }
 
@@ -75,9 +80,7 @@ namespace TCM_Elastic
                 Console.WriteLine("=========================== FIM ==================================");
                 Console.WriteLine("");
                 Console.WriteLine("");
-
-
-            } 
+            }
 
 
             Console.WriteLine("Processado em {0}", stopwatch.Elapsed.ToString());
