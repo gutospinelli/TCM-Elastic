@@ -68,10 +68,10 @@ namespace TCM_Elastic
                         .Field(p => p.Attachment.Content)
                         .Type("plain")
                         .ForceSource()
-                        .FragmentSize(150)
+                        .FragmentSize(50)
                         .Fragmenter(HighlighterFragmenter.Span)
                         .NumberOfFragments(6)
-                        .NoMatchSize(150)
+                        //.NoMatchSize(150)
                 )
             )
             );

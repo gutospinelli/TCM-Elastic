@@ -88,12 +88,13 @@ namespace TCM_Elastic
             var resultado = nest.BuscarTermoBaseConhecimentoHighlights(termo, indexName);
             foreach (var hit in resultado)
             {
-                
                 foreach (var highlightField in hit.Highlight)
                 {
                     foreach (var highlight in highlightField.Value)
                     {
+                        Console.WriteLine("===================================================================");
                         Console.WriteLine(highlight);
+                        Console.WriteLine("");Console.WriteLine("");
                     }
                     
                 }

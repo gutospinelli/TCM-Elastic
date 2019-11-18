@@ -90,7 +90,7 @@ namespace TCM_Elastic
                 if (!File.Exists(path))
                 {
                     // Create a file to write to.
-                    string createText = "Lista" + i + " de " + numeroListas + Environment.NewLine;
+                    string createText = "Lista " + i + " de " + numeroListas + Environment.NewLine;
                     File.WriteAllText(path, createText);
                 }
 
@@ -106,6 +106,37 @@ namespace TCM_Elastic
             //// Open the file to read from.
             //string readText = File.ReadAllText(path);
             //Console.WriteLine(readText);
+
+        }
+
+        public void SalvaBaseConhecimentoJson()
+        {
+            var todasNoticiasEmUmaLista = RetornaNoticiasTCMWeb();
+            int numeroListas = 2;
+
+            var noticiasNListas = todasNoticiasEmUmaLista.Select((s, i) => new { s, i })
+                                  .GroupBy(x => x.i % numeroListas)
+                                  .Select(g => g.Select(x => x.s).ToList())
+                                  .ToList();
+
+
+            string path = @"c:\temp\";
+
+            for (int i = 0; i < numeroListas; i++)
+            {
+                path = @"c:\temp\knlgBase" + i + ".json";
+                // This text is added only once to the file.
+                if (!File.Exists(path))
+                {
+                    string createText = "Lista " + i + " de " + numeroListas + Environment.NewLine;
+                    File.WriteAllText(path, createText);
+                }
+
+                string appendText = JsonConvert.SerializeObject(noticiasNListas[i]);
+                File.AppendAllText(path, appendText);
+
+
+            }
 
         }
     }
