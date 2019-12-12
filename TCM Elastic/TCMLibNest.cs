@@ -9,7 +9,7 @@ namespace TCM_Elastic
 {
     public class TCMLibNest
     {
-        private ConnectionSettings settings = new ConnectionSettings(new Uri("http://localhost:9200"))
+        private ConnectionSettings settings = new ConnectionSettings(new Uri("http://tcm2016elastic:9200"))
        .DefaultIndex("noticias").PrettyJson();
 
         private ElasticClient _elasticClient;

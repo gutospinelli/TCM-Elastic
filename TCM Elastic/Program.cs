@@ -22,12 +22,12 @@ namespace TCM_Elastic
             //lib.IndexaNoticiasBulk(robo.RetornaNoticiasTCMWeb());
 
             //2.1 - Indexa noticias do WEBNEWS usando NEST
-            //var noticiasBD = robo.RetornaNoticiasTCMWeb();
-            //foreach (var noticia in noticiasBD)
-            //{
-            //    var reponse = nest.IndexaNoticia(noticia);
-            //    Console.WriteLine("Noticia: " + noticia.Id + " Resultado: " + reponse.Result.ToString());
-            //}
+            var noticiasBD = robo.RetornaNoticiasTCMWeb();
+            foreach (var noticia in noticiasBD)
+            {
+                var reponse = nest.IndexaNoticia(noticia);
+                Console.WriteLine("Noticia: " + noticia.Id + " Resultado: " + reponse.Result.ToString());
+            }
 
             //3 - Realiza uma busca com ELasticSearch.NET            
             //Console.WriteLine("Você deseja buscar notícias do: ");
@@ -49,7 +49,7 @@ namespace TCM_Elastic
             //robo.SalvaNoticiasJson();
 
             //5 -Cria Índice de Documentos Word
-            var indexName = "conhecimento_v2";
+            //var indexName = "conhecimento_v2";
             //nest.IngestPipeline(indexName);
 
             //var path = @"C:\tmp\es";
@@ -57,8 +57,8 @@ namespace TCM_Elastic
             //nest.IngestKnowledgeBaseDocs(path, searchPattern, indexName);
 
             //5.1 - Realiza uma busca dentro de Documentos DOCX com NEST
-            Console.WriteLine("O que deseja buscar na base de conhecimento? ");
-            string termo = Console.ReadLine();
+            //Console.WriteLine("O que deseja buscar na base de conhecimento? ");
+            //string termo = Console.ReadLine();
 
             //5.1.1 - Busca todo Doc
             //var resultado = nest.BuscarTermoBaseConhecimento(termo, indexName);
@@ -85,20 +85,20 @@ namespace TCM_Elastic
             //}
 
             //5.2.2 - Busca por highlights
-            var resultado = nest.BuscarTermoBaseConhecimentoHighlights(termo, indexName);
-            foreach (var hit in resultado)
-            {
-                foreach (var highlightField in hit.Highlight)
-                {
-                    foreach (var highlight in highlightField.Value)
-                    {
-                        Console.WriteLine("===================================================================");
-                        Console.WriteLine(highlight);
-                        Console.WriteLine("");Console.WriteLine("");
-                    }
+            //var resultado = nest.BuscarTermoBaseConhecimentoHighlights(termo, indexName);
+            //foreach (var hit in resultado)
+            //{
+            //    foreach (var highlightField in hit.Highlight)
+            //    {
+            //        foreach (var highlight in highlightField.Value)
+            //        {
+            //            Console.WriteLine("===================================================================");
+            //            Console.WriteLine(highlight);
+            //            Console.WriteLine("");Console.WriteLine("");
+            //        }
                     
-                }
-            }
+            //    }
+            //}
 
 
             Console.WriteLine("Processado em {0}", stopwatch.Elapsed.ToString());
